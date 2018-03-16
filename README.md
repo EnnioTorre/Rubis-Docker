@@ -1,10 +1,11 @@
-#  Containerize- Rubis BenchmarK
+#  Conteinerized Rubis BenchmarK
 This is the Git repo of the Docker images for the Rubis Benchmark.
 
 ## Notice: Unfortunately, this project is currently a work in progress. Further testing is required to still fix bugs if there is any. The benchmark source code is mostly hardcoded and making it run is very challenging. 
 
 This project was started with the aim to provide a docker version of the Rubis java Servlets which might be used to test your docker environment.
 From an architectural standpoint, each Rubis tier has been separately build to emulate a 3-tier application and provide a flexible environment where you can more easily scale out or scale up containers within each tier.
+
 `
                                                                      |
                |                          |----- rubis servlet ----- |---- rubis DB (master)
@@ -16,6 +17,7 @@ Rubis Client --|- apache2.4/rubisproxy--- |                          |
 
                        WEB                        APPLICATION                  DATA
 `
+
 Each Tier image is self-contained.
 Refer to the folder of each Docker image for more details.
 
@@ -41,6 +43,7 @@ This repository contains :
 ### Build 
 
 example using the docker cli :
+
 ```
 docker build -t rubisdb ./RubisDB
 docker build -t rubis ./Rubis
@@ -63,10 +66,13 @@ docker run -d -rm -p 5002:8080 --name=rubisservlet -d rubis
 docker run -d -rm -p 5001:80 -e LB_MEMBER_1=rubisservlet --name=rubisweb -d rubisproxy
 docker run -d -rm -p 5000:80 --name=rubisbenchmark -d rubisclient
 ```
+
 Tail the logs for more information.
+
 ```
 docker exec -it rubisbenchmark tail -f /var/log/supervisor/Rubis.log
 ```
+
 Wait for the DB initialization and after that emulation starts, go to IP address at port 5000 ``/bench`` and you can see Rubis running.
 
 example using docker-compose.yaml
@@ -105,9 +111,11 @@ services:
     environment:
      - TARGET=emulate
 ```
+
 ```
 docker-compose up -d rubisweb
 ```
+
 Verify that Rubis is correctly running at http://your_host_ip:5003/rubis_servlets
 Start the Client.
 
@@ -159,7 +167,9 @@ services:
     environment:
      - TARGET=initDB
 ```
+
 At this point you may decide to reduce the max size of the database connections pool (in Rubis/servlets/context.xml) since with two tomcat the number of DB connections will be doubled.
+
 
 `
 <Resource name="jdbc/Rubismysql" auth="Container" type="javax.sql.DataSource"
@@ -168,6 +178,7 @@ At this point you may decide to reduce the max size of the database connections 
                url="jdbc:mysql://dockerfiles_rubisdb_1:3306/rubis?autoReconnect=true&amp;useSSL=false"/>
 `
 The client will also need to know which are the Servlet hosts. This is done by editing the RubisClient/Client/rubis.properties file.
+
 
 `
 servlets_server = dockerfiles_rubis_1,dockerfiles_rubis_2
@@ -208,6 +219,7 @@ dockerfiles_rubisweb_1   /usr/bin/supervisord -c /e ...   Up      0.0.0.0:5002->
 Go to http://your_host_IP:5002/rubis_servlets/index.html to verify that Rubis is running.
 
 Start the simulation
+
 '''
 docker-compose up --scale rubis=2 -d rubisclient
 dockerfiles_rubisdb_1 is up-to-date
@@ -233,6 +245,7 @@ Generating 1 comment per item
 ..............................
 Done!
 '
+
 Check the requests status at http://your_host_IP:5002/server-status.
 
 Finally go to http://your_host_IP:5003/bench/ to read the simulation results.
@@ -280,6 +293,7 @@ services:
     environment:
      - TARGET=emulate
 '''
+
 NOTE: Differently from above we provide the load-balanced hosts as environment variables. (LB_MEMBER_1)
 This is one of the alternatives provided by the rubis Web container. See ./RubisWeb for more details.
 
@@ -291,7 +305,9 @@ Creating network "dockerfiles_default" with the default driver
 Creating dockerfiles_rubisdb_1 ... done
 Creating dockerfiles_rubisdb_2 ... done
 '''
+
 Verify the database cluter status
+
 '''
 docker exec -it dockerfiles_rubisdb_1 mysql -proot -e "SELECT * FROM performance_schema.replication_group_members;"
 mysql: [Warning] Using a password on the command line interface can be insecure.
@@ -302,11 +318,13 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 | group_replication_applier | 4f1c04c5-1c8e-11e8-b6dd-0242ac120002 | 172.18.0.2  |        3306 | ONLINE       |
 +---------------------------+--------------------------------------+-------------+-------------+--------------+
 '''
+
 Modify/uncomment the url in Rubis/servlets/context.xml to ue your database cluster in failover mode.
 
 '''
 url="jdbc:mysql//dockerfiles_rubisdb_1:3306,dockerfiles_rubisdb_2:3306/rubis"/>
 '''
+
 Check that each container is up and running (this can be done also using docker-compose ps).
 
 '''
@@ -336,6 +354,7 @@ Wed Feb 28 14:10:12 UTC 2018 WARN: Establishing SSL connection without server's 
 '
 
 Start the simulation
+
 '''
 docker-compose up --scale rubisdb=2 -d rubisclient
 dockerfiles_rubisdb_1 is up-to-date
