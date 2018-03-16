@@ -1,4 +1,4 @@
-#  Conteinerized Rubis BenchmarK
+# Containerized Rubis BenchmarK
 This is the Git repo of the Docker images for the Rubis Benchmark.
 
 ## Notice: Unfortunately, this project is currently a work in progress. Further testing is required to still fix bugs if there is any. The benchmark source code is mostly hardcoded and making it run is very challenging. 
