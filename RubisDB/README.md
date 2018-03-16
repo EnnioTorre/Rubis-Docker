@@ -108,8 +108,8 @@ Unfortunately, Rubis does not offer the opportunity to load-balance writes betwe
 on same table's rows cause deadlocks, see mySQL Group Replication Limitations.
 [READ MORE](https://dev.mysql.com/doc/refman/5.7/en/group-replication-limitations.html)
 
-This does not exclude the possibility to use the Multy-primary to further stress the system 
-as computing load is generate to bring slave servers up to date in a replication scenario.
+This does not exclude the possibility to use the Multy-primary and use the ConnectorJ with a failover configuration. This allows anyway to further stress the system, 
+as computing load is generate to bring secondary servers up to date in a replication scenario.
 
 Or to further develope Rubis -- who knows!
 
