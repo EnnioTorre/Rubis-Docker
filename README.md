@@ -6,7 +6,7 @@ This is the Git repo of the Docker images for the Rubis Benchmark.
 This project was started with the aim to provide a docker version of the Rubis java Servlets which might be used to test your docker environment.
 From an architectural standpoint, each Rubis tier has been separately build to emulate a 3-tier application and provide a flexible environment where you can more easily scale out or scale up containers within each tier.
 
-`
+```
                                                                      |
                |                          |----- rubis servlet ----- |---- rubis DB (master)
                |                          |   (tomcat container c)   |      (Mysql container e)
@@ -16,7 +16,7 @@ Rubis Client --|- apache2.4/rubisproxy--- |                          |
                                               (tomcat container d)   |       (Mysql container f)
 
                        WEB                        APPLICATION                  DATA
-`
+```
 
 Each Tier image is self-contained.
 Refer to the folder of each Docker image for more details.
@@ -177,6 +177,7 @@ At this point you may decide to reduce the max size of the database connections 
                username="rubis" password="rubis" driverClassName="com.mysql.jdbc.Driver"
                url="jdbc:mysql://dockerfiles_rubisdb_1:3306/rubis?autoReconnect=true&amp;useSSL=false"/>
 `
+
 The client will also need to know which are the Servlet hosts. This is done by editing the RubisClient/Client/rubis.properties file.
 
 
@@ -214,6 +215,7 @@ dockerfiles_rubis_1      /usr/bin/supervisord -c /e ...   Up      8080/tcp
 dockerfiles_rubis_2      /usr/bin/supervisord -c /e ...   Up      8080/tcp
 dockerfiles_rubisdb_1    /usr/bin/supervisord -c /e ...   Up      3306/tcp, 33060/tcp, 33061/tcp
 dockerfiles_rubisweb_1   /usr/bin/supervisord -c /e ...   Up      0.0.0.0:5002->80/tcp
+
 '''
 
 Go to http://your_host_IP:5002/rubis_servlets/index.html to verify that Rubis is running.
@@ -311,6 +313,7 @@ Verify the database cluter status
 '''
 docker exec -it dockerfiles_rubisdb_1 mysql -proot -e "SELECT * FROM performance_schema.replication_group_members;"
 mysql: [Warning] Using a password on the command line interface can be insecure.
+
 +---------------------------+--------------------------------------+-------------+-------------+--------------+
 | CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |
 +---------------------------+--------------------------------------+-------------+-------------+--------------+
