@@ -35,10 +35,11 @@ This repository contains :
   ├── RubisDB
   └── RubisWeb
 ```
+
 ### Requirements
 
-  [Docker Compose](https://docs.docker.com/compose/install)
-  [Docker Engine](https://docs.docker.com/install/)
+  [Docker Compose](https://docs.docker.com/compose/install) - docker compose
+  [Docker Engine](https://docs.docker.com/install/) -docker engine
 
 ### Build 
 
@@ -201,14 +202,14 @@ In this example Rubis Servlets containers can be scaled up using the --scale opt
 and will update its configuration accordingly.
 
 ```bash
-# docker-compose up --scale rubis=2 -d rubisweb
+docker-compose up --scale rubis=2 -d rubisweb
 Creating network "dockerfiles_default" with the default driver
 Creating dockerfiles_rubis_1    ... done
 Creating dockerfiles_rubis_2    ... done
 Creating dockerfiles_rubis_2    ...
 Creating dockerfiles_rubisweb_1 ... done
 
-#docker-compose ps
+docker-compose ps
          Name                       Command               State               Ports
 ------------------------------------------------------------------------------------------------
 dockerfiles_rubis_1      /usr/bin/supervisord -c /e ...   Up      8080/tcp
@@ -231,10 +232,13 @@ dockerfiles_rubisweb_1 is up-to-date
 Creating dockerfiles_rubisclient_1 ... done
 ```
 
-See clients log
+See clients log.
+
+```bash
+docker-compose exec rubisclient tail -f /var/log/supervisor/Rubis.log
+```
 
 `
-# docker-compose exec rubisclient tail -f /var/log/supervisor/Rubis.log
 Monitoring scp                 : /usr/bin/scp<br>
 Monitoring Gnuplot Terminal    : jpeg<br>
 
@@ -310,7 +314,7 @@ Creating dockerfiles_rubisdb_2 ... done
 
 Verify the database cluter status
 
-```
+``` bash
 docker exec -it dockerfiles_rubisdb_1 mysql -proot -e "SELECT * FROM performance_schema.replication_group_members;"
 mysql: [Warning] Using a password on the command line interface can be insecure.
 
@@ -342,7 +346,7 @@ CONTAINER ID        IMAGE                  COMMAND                  CREATED     
 
 Check the Tomcat logs.
 
-`
+```
 docker exec -it dockerfiles_rubis_1 tail -f /apache-tomcat-8.5.20/logs/catalina.out
 28-Feb-2018 14:09:05.347 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/apache-tomcat-8.5.20/webapps/host-manager]
 28-Feb-2018 14:09:05.486 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/apache-tomcat-8.5.20/webapps/host-manager] has finished in [139] ms
@@ -353,8 +357,7 @@ docker exec -it dockerfiles_rubis_1 tail -f /apache-tomcat-8.5.20/logs/catalina.
 28-Feb-2018 14:09:05.579 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 8432 ms
 =====DOCKERIZED RUBIS======
 Wed Feb 28 14:10:12 UTC 2018 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
-
-`
+```
 
 Start the simulation
 
