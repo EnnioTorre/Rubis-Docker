@@ -128,7 +128,7 @@ docker-compose up -d rubisclient
 
 #### DEEP DIVE
 
-Above example deploys a single container in each tier. Follow other two examples which explain how to scale up your tier containers.
+Above example deploys one container for each tier. Follow other two examples which explain how to scale up your tier containers.
 
 ##### SCALE UP APPLICATION TIER
 
