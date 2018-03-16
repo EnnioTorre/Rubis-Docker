@@ -26,20 +26,22 @@ Refer to the folder of each Docker image for more details.
 This repository contains :
 
 ```
-  Dockerfiles
-  ├── docker-compose.yml
-  ├── docker-compose.yml.back1
-  ├── docker-compose.yml.bak2
-  ├── Rubis
-  ├── RubisClient
-  ├── RubisDB
-  └── RubisWeb
+ Dockerfiles
+ ├── docker-compose.yml
+ ├── docker-compose.yml.Multi-Primary
+ ├── docker-compose.yml.Simple
+ ├── LICENSE.md
+ ├── README.md
+ ├── Rubis
+ ├── RubisClient
+ ├── RubisDB
+ └── RubisWeb
 ```
 
 ### Requirements
 
-  [Docker Compose](https://docs.docker.com/compose/install) - docker compose
-  [Docker Engine](https://docs.docker.com/install/) -docker engine
+*  [Docker Compose](https://docs.docker.com/compose/install)
+*  [Docker Engine](https://docs.docker.com/install/)
 
 ### Build 
 
@@ -236,9 +238,7 @@ See clients log.
 
 ```bash
 docker-compose exec rubisclient tail -f /var/log/supervisor/Rubis.log
-```
 
-`
 Monitoring scp                 : /usr/bin/scp<br>
 Monitoring Gnuplot Terminal    : jpeg<br>
 
@@ -250,7 +250,7 @@ Generating up to 20 bids per item.
 Generating 1 comment per item
 ..............................
 Done!
-`
+```
 
 Check the requests status at http://your_host_IP:5002/server-status.
 
@@ -297,7 +297,7 @@ services:
     ports:
      - "5003:80"
     environment:
-     - TARGET=emulate
+     - TARGET=benchmark
 ```
 
 NOTE: Differently from above we provide the load-balanced hosts as environment variables. (LB_MEMBER_1)
